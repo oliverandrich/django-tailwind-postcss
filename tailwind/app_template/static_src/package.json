@@ -1,0 +1,31 @@
+{
+  "author": "",
+  "description": "",
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/typography": "^0.4.0",
+    "autoprefixer": "^10.0.2",
+    "clean-css-cli": "^5.2.0",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.1.9",
+    "postcss-cli": "^8.3.0",
+    "postcss-import": "^14.0.0",
+    "postcss-nested": "^5.0.3",
+    "rimraf": "^3.0.2",
+    "tailwindcss": "^2.0.1",
+    "watch": "^1.0.2"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "name": "django_tailwind_postcss",
+  "scripts": {
+    "build": "npm run build:clean && npm run build:postcss && npm run build:cleancss",
+    "build:clean": "rimraf ../static/css",
+    "build:cleancss": "cleancss -o ../static/css/styles.css ../static/css/styles.css",
+    "build:postcss": "cross-env NODE_ENV=production postcss --config . --map false --output ../static/css/styles.css src/styles.css ",
+    "dev": "watch \"npm run dev:postcss\" ./src",
+    "dev:postcss": "postcss --config . --map true --output ../static/css/styles.css src/styles.css",
+    "start": "npm run dev"
+  }
+}
