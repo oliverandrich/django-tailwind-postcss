@@ -1,7 +1,6 @@
 import os
 import uuid
 
-import pytest
 from django.core.management import call_command
 
 from tailwind.utils import get_app_path, get_package_json_contents
@@ -9,14 +8,10 @@ from tailwind.utils import get_app_path, get_package_json_contents
 from .conftest import cleanup_theme_app_dir
 
 
-@pytest.mark.parametrize("legacy_version", [True, False])
-def test_tailwind_install_and_build(settings, legacy_version):
+def test_tailwind_install_and_build(settings):
     app_name = f'test_theme_{str(uuid.uuid1()).replace("-", "_")}'
 
-    if legacy_version:
-        call_command("tailwind", "init", app_name, "--legacy")
-    else:
-        call_command("tailwind", "init", app_name)
+    call_command("tailwind", "init", app_name)
 
     settings.INSTALLED_APPS += [app_name]
 
@@ -34,10 +29,7 @@ def test_tailwind_install_and_build(settings, legacy_version):
     # Ensure correct version of Tailwind CSS is installed
     data = get_package_json_contents(app_name)
     tailwindcss = data.get("devDependencies", {}).get("tailwindcss", "")
-    if legacy_version:
-        assert tailwindcss.startswith("^1."), "Tailwind CSS v1.x is installed"
-    else:
-        assert tailwindcss.startswith("^2."), "Tailwind CSS v2.x is installed"
+    assert tailwindcss.startswith("^2."), "Tailwind CSS v2.x is installed"
 
     call_command("tailwind", "build")
     assert os.path.isfile(
