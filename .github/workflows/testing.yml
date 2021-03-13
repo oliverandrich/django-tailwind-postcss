@@ -31,4 +31,4 @@ jobs:
           poetry install
       - name: Run tests
         run: |
-          poetry run python3 runtests.py
+          poetry run tox
