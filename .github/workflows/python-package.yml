@@ -29,6 +29,6 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install
-      - name: Test with pytest
+      - name: Run tests
         run: |
-          poetry run tox
+          poetry run python manage.py test
