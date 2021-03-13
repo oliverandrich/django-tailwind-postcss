@@ -1,6 +1,6 @@
 # Django + Tailwind = ❤
 
-This is a fork of the great project [django-tailwind](https://github.com/timonweb/django-tailwind) by [timonweb](https://github.com/timonweb). Instead of using [Sass](https://sass-lang.com) in the css procesing pipeline, I prefer to stick to a postcss only pipeline and also integrated the officials plugins, that are recommended by [Tailwind UI](https://tailwindui.com). I also took the decision to strip the support for Tailwind CSS 1.x. In order to support nested rules in the css definitions, [postcss-nested](https://github.com/postcss/postcss-nested) is also added.
+This is a fork of the great project [django-tailwind](https://github.com/timonweb/django-tailwind) by [timonweb](https://github.com/timonweb). Instead of using [Sass](https://sass-lang.com) in the css procesing pipeline, I prefer to stick to a postcss only pipeline and also integrated the officials plugins, that are recommended by [Tailwind UI](https://tailwindui.com): [@tailwindcss/aspect-ratio](https://www.npmjs.com/package/@tailwindcss/aspect-ratio), [@tailwindcss/forms](https://www.npmjs.com/package/@tailwindcss/forms) and [@tailwindcss/typography](https://www.npmjs.com/package/@tailwindcss/typography). I also took the decision to strip the support for Tailwind CSS 1.x. In order to support nested rules in the css definitions, [postcss-nested](https://github.com/postcss/postcss-nested) is also added.
 
 ## Installation
 

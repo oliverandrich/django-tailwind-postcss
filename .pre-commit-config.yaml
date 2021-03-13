@@ -1,4 +1,14 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0 # Use the ref you want to point at
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+
   - repo: local
     hooks:
       - id: black
@@ -11,9 +21,5 @@ repos:
         entry: flake8 --config=tox.ini
         language: system
         types: [python]
-      - id: isort
-        name: isort
-        entry: isort
-        language: system
-        types: [python]
+
 exclude: tailwind/app_template_v(1|2)/apps.py

@@ -1,17 +1,13 @@
 import os
+import subprocess
+from pathlib import Path
 
 from django.conf import settings
+from django.apps import apps
 from django.core.management import call_command
 from django.core.management.base import CommandError, LabelCommand
 
-from ...npm import NPM, NPMException
-from ...utils import DJANGO_TAILWIND_APP_DIR, get_tailwind_src_path
-from ...validate import ValidationError, Validations
-
-
-class Command(LabelCommand):
-    help = "Runs tailwind commands"
-    missing_args_message = """
+usage = """
 Command argument is missing, please add one of the following:
   init - to initialize django-tailwind app
   install - to install npm packages necessary to build tailwind css
@@ -22,45 +18,51 @@ Command argument is missing, please add one of the following:
 Usage example:
   python manage.py tailwind start
 """
-    npm = None
-    validate = None
 
-    def __init__(self, *args, **kwargs):
-        super(Command, self).__init__(*args, **kwargs)
-        self.validate = Validations()
+
+class Command(LabelCommand):
+    help = "Runs tailwind commands"
+    missing_args_message = usage
 
     def validate_app(self):
-        try:
-            self.validate.has_settings()
-            app_name = getattr(settings, "TAILWIND_APP_NAME")
-            self.validate.is_installed(app_name)
-            self.validate.is_tailwind_app(app_name)
-        except ValidationError as err:
-            raise CommandError(err)
+        if not hasattr(settings, "TAILWIND_APP_NAME"):
+            raise CommandError("TAILWIND_APP_NAME isn't set in settings.py")
+
+        app_name = getattr(settings, "TAILWIND_APP_NAME")
+
+        if not apps.is_installed(app_name):
+            raise CommandError(f"{app_name} is not in INSTALLED_APPS")
+
+        if not os.path.isfile(os.path.join(self._get_tailwind_src_path(), "tailwind.config.js")):
+            raise CommandError(f"'{app_name}' isn't a Tailwind app")
 
     def handle(self, *labels, **options):
-        return self.handle_labels(*labels, **options)
+        label = labels[0]
+        if labels[0] not in [
+            "init",
+            "install",
+            "npm",
+            "start",
+            "build",
+            "check-updates",
+            "update",
+        ]:
+            raise Exception(f"Subcommand {label} doesn't exist")
 
-    def handle_labels(self, *labels, **options):
-        self.validate.acceptable_label(labels[0])
-        if labels[0] != "init":
+        if label != "init":
             self.validate_app()
-            self.npm = NPM(cwd=get_tailwind_src_path(settings.TAILWIND_APP_NAME))
-        getattr(self, "handle_" + labels[0].replace("-", "_") + "_command")(
-            *labels[1:], **options
-        )
+
+        getattr(self, "handle_" + label.replace("-", "_") + "_command")(*labels[1:], **options)
 
     def handle_init_command(self, app_name, **options):
         try:
-            call_command(
-                "startapp",
-                app_name,
-                template=os.path.join(DJANGO_TAILWIND_APP_DIR, "app_template"),
+            app_template_path = os.path.join(
+                Path(__file__).resolve().parent.parent.parent, "app_template"
             )
+            call_command("startapp", app_name, template=app_template_path)
             self.stdout.write(
                 self.style.SUCCESS(
-                    f"Tailwind application '{app_name}' "
-                    f"has been successfully created. "
+                    f"Tailwind application successfully created. "
                     f"Please add '{app_name}' to INSTALLED_APPS in settings.py."
                 )
             )
@@ -84,8 +86,23 @@ Usage example:
 
     def npm_command(self, *args):
         try:
-            self.npm.command(*args)
-        except NPMException as err:
-            raise CommandError(err)
+            npm_bin_path = getattr(settings, "NPM_BIN_PATH", "npm")
+            subprocess.run([npm_bin_path] + list(args), cwd=self._get_tailwind_src_path())
+        except OSError:
+            raise CommandError(
+                "\nIt looks like node.js and/or npm is not installed or cannot be found.\n\n"
+                "Visit https://nodejs.org to download and install node.js for your system.\n\n"
+                "If you have npm installed and still getting this error message, "
+                "set NPM_BIN_PATH variable in settings.py to match path of NPM executable in your system.\n\n"
+                ""
+                "Example:\n"
+                'NPM_BIN_PATH = "/usr/local/bin/npm"'
+            )
         except KeyboardInterrupt:
             pass
+
+    def _get_tailwind_src_path(self):
+        app_name = getattr(settings, "TAILWIND_APP_NAME")
+        app_label = app_name.split(".")[-1]
+        app_path = apps.get_app_config(app_label).path
+        return os.path.join(app_path, "static_src")
