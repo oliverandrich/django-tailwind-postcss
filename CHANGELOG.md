@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- Fixed LICENSE to retain the original author.
+
 ## 0.9.0
 
 - Forked [django-tailwind](https://github.com/timonweb/django-tailwind).
