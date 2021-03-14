@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+
+- Added missing plugin references to postcss.config.js
+
 ## 0.9.1
 
 - Fixed LICENSE to retain the original author.
