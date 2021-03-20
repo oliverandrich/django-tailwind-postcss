@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0
+
+- Fixed purge css configuration in tailwind.config.js to properly recurse into
+  template folders of your own local apps too.
+
 ## 0.9.2
 
 - Added missing plugin references to postcss.config.js
