@@ -4,6 +4,8 @@
 
 - Fixed purge css configuration in tailwind.config.js to properly recurse into
   template folders of your own local apps too.
+- Integrated the tailwindcss-jit compiler. Even though it is experimental, it works like a charm for me.
+- **Breaking Change**: Restructured the structure of the app_template created by the tailwind command. You have to recreate your theme app, in order to use this version. Normally you just have to save your styles.css and copy it to the fresh app. In case you made changes to postcss.config.js or tailwind.config.js, copy these to the new app too.
 
 ## 0.9.2
 

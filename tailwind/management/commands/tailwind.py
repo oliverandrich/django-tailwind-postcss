@@ -2,8 +2,8 @@ import os
 import subprocess
 from pathlib import Path
 
-from django.conf import settings
 from django.apps import apps
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError, LabelCommand
 
@@ -105,4 +105,4 @@ class Command(LabelCommand):
         app_name = getattr(settings, "TAILWIND_APP_NAME")
         app_label = app_name.split(".")[-1]
         app_path = apps.get_app_config(app_label).path
-        return os.path.join(app_path, "static_src")
+        return app_path

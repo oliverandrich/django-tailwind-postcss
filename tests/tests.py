@@ -1,11 +1,11 @@
+import json
 import os
 import shutil
 import uuid
-import json
-import pytest
 
-from django.core.management import call_command
+import pytest
 from django.apps import apps
+from django.core.management import call_command
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def installed_app(settings):
 def test_tailwind_init(installed_app):
     _, app_path = installed_app
     assert os.path.isfile(os.path.join(app_path, "apps.py"))
-    assert os.path.isfile(os.path.join(app_path, "static_src", "package.json"))
+    assert os.path.isfile(os.path.join(app_path, "package.json"))
     assert os.path.isfile(os.path.join(app_path, "templates", "base.html"))
 
 
@@ -37,9 +37,9 @@ def test_tailwind_install(installed_app):
 
     call_command("tailwind", "install")
 
-    assert os.path.isdir(os.path.join(app_path, "static_src", "node_modules"))
+    assert os.path.isdir(os.path.join(app_path, "node_modules"))
 
-    package_json_path = os.path.join(app_path, "static_src", "package.json")
+    package_json_path = os.path.join(app_path, "package.json")
     with open(package_json_path, "r") as f:
         data = json.load(f)
 

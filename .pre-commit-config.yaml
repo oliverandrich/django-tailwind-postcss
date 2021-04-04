@@ -9,17 +9,15 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
 
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: 20.8b1 # Replace by any tag/version: https://github.com/psf/black/tags
     hooks:
       - id: black
-        name: black
-        entry: black
-        language: system
-        types: [python]
+        language_version: python3 # Should be a command that runs python3.6+
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.9.0 # pick a git hash / tag to point to
+    hooks:
       - id: flake8
-        name: flake8
-        entry: flake8 --config=tox.ini
-        language: system
-        types: [python]
 
 exclude: tailwind/app_template_v(1|2)/apps.py
