@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-tailwind-postcss"
-version = "0.9.2"
+version = "0.10.0"
 description = "Tailwind CSS Framework for Django projects"
 authors = ["Oliver Andrich <oliver@andrich.me>"]
 license = "MIT"
