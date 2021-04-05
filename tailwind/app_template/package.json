@@ -9,13 +9,13 @@
     "autoprefixer": "^10.0.2",
     "clean-css-cli": "^5.2.0",
     "cross-env": "^7.0.3",
+    "nodemon": "^2.0.7",
     "postcss": "^8.1.9",
     "postcss-cli": "^8.3.0",
     "postcss-import": "^14.0.0",
     "postcss-nested": "^5.0.3",
     "rimraf": "^3.0.2",
-    "tailwindcss": "^2.0.1",
-    "watch": "^1.0.2"
+    "tailwindcss": "^2.0.1"
   },
   "keywords": [],
   "license": "MIT",
@@ -25,7 +25,7 @@
     "build:clean": "rimraf static/css",
     "build:cleancss": "cleancss -o static/css/styles.css static/css/styles.css",
     "build:postcss": "cross-env NODE_ENV=production postcss --config . --map false --output static/css/styles.css static_src/css/styles.css ",
-    "dev": "watch \"npm run dev:postcss\" ./static_src",
+    "dev": "nodemon --watch .. --ignore ./static/ --ext js,css,html --exec \"npm run dev:postcss\"",
     "dev:postcss": "postcss --config . --map true --output static/css/styles.css static_src/css/styles.css",
     "start": "npm run dev"
   }

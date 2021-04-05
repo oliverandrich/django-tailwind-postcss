@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+- Switched from watch to nodemon as a watcher. It now covers all the js, css and html files in your project.
+
 ## 0.10.0
 
 - Fixed purge css configuration in tailwind.config.js to properly recurse into

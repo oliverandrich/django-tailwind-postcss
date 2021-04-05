@@ -3,9 +3,9 @@
 // https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
 module.exports = {
   purge: [
+    "./templates/**/*.html",
     "../templates/**/*.html",
-    "../../**/templates/**/*.html",
-    "../../templates/**/*.html",
+    "../**/templates/**/*.html",
   ],
   darkMode: "media", // or 'class' or false
   theme: {
