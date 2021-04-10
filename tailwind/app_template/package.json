@@ -3,8 +3,7 @@
   "description": "",
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.2.0",
-    "@tailwindcss/forms": "^0.2.1",
-    "@tailwindcss/jit": "^0.1.18",
+    "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.0",
     "autoprefixer": "^10.0.2",
     "clean-css-cli": "^5.2.0",
@@ -15,7 +14,7 @@
     "postcss-import": "^14.0.0",
     "postcss-nested": "^5.0.3",
     "rimraf": "^3.0.2",
-    "tailwindcss": "^2.0.1"
+    "tailwindcss": "^2.1.1"
   },
   "keywords": [],
   "license": "MIT",

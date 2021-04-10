@@ -1,4 +1,3 @@
-import os
 import subprocess
 from pathlib import Path
 
@@ -33,8 +32,8 @@ class Command(LabelCommand):
         if not apps.is_installed(app_name):
             raise CommandError(f"{app_name} is not in INSTALLED_APPS")
 
-        if not os.path.isfile(os.path.join(self._get_tailwind_src_path(), "tailwind.config.js")):
-            raise CommandError(f"'{app_name}' isn't a Tailwind app")
+        if not (self._get_tailwind_src_path() / "tailwind.config.js").is_file():
+            raise CommandError(f"{app_name} isn't a Tailwind app")
 
     def handle(self, *labels, **options):
         label = labels[0]
@@ -56,9 +55,7 @@ class Command(LabelCommand):
 
     def handle_init_command(self, app_name, **options):
         try:
-            app_template_path = os.path.join(
-                Path(__file__).resolve().parent.parent.parent, "app_template"
-            )
+            app_template_path = str(Path(__file__).resolve().parent.parent.parent / "app_template")
             call_command("startapp", app_name, template=app_template_path)
             self.stdout.write(
                 self.style.SUCCESS(
@@ -76,7 +73,7 @@ class Command(LabelCommand):
         self.npm_command("run", "build")
 
     def handle_start_command(self, **options):
-        self.npm_command("run", "start")
+        self.npm_command("run", "start")  # pragma: no cover
 
     def handle_check_updates_command(self, **options):
         self.npm_command("outdated")
@@ -98,11 +95,10 @@ class Command(LabelCommand):
                 "Example:\n"
                 'NPM_BIN_PATH = "/usr/local/bin/npm"'
             )
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # pragma: no cover
             pass
 
     def _get_tailwind_src_path(self):
         app_name = getattr(settings, "TAILWIND_APP_NAME")
         app_label = app_name.split(".")[-1]
-        app_path = apps.get_app_config(app_label).path
-        return app_path
+        return Path(apps.get_app_config(app_label).path)

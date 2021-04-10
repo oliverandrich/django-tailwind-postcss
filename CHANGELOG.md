@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0
+
+- Updated theme app template to Tailwind CSS 2.1 and changed the configuraton to use the new jit mode.
+- Extended test suite to get 100% code coverage.
+- Switched complete over to using pathlib instead of wild os.path.join constructs.
+
 ## 0.11.0
 
 - Switched from watch to nodemon as a watcher. It now covers all the js, css and html files in your project.
