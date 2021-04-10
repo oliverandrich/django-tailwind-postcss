@@ -47,8 +47,12 @@ build-backend = "poetry.core.masonry.api"
 line-length = 100
 
 [tool.pytest.ini_options]
+addopts = "--exitfirst --cov --cov-report=html  --cov-report=term --no-cov-on-fail"
 DJANGO_SETTINGS_MODULE = "tests.test_settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
 [tool.coverage.run]
 omit = [".venv/*", "tests/*"]
+
+[tool.coverage.report]
+ignore_errors = true
