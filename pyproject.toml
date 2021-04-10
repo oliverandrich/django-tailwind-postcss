@@ -31,9 +31,9 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.7"
 django = ">=2.2"
+Django = "~3.2.0"
 
 [tool.poetry.dev-dependencies]
-tox = "^3.14.3"
 pytest = "^6.2.2"
 pytest-django = "^4.1.0"
 pytest-cov = "^2.11.1"

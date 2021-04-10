@@ -14,7 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+        django-version:
+          - "2.2" # LTS
+          - "3.0"
+          - "3.1"
+          - "3.2" # LTS
+        exclude:
+          # Python 3.9 is compatible with Django 3.1+
+          - python-version: "3.9"
+            django-version: "2.2"
+          - python-version: "3.9"
+            django-version: "3.0"
 
     steps:
       - name: Checkout project
@@ -31,25 +45,14 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
 
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.5
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: |
           poetry install --no-interaction
+          poetry add "Django~=${{ matrix.django-version }}.0"
 
       - name: Run tests
         run: |
-          poetry run tox
+          poetry run pytest --no-cov
