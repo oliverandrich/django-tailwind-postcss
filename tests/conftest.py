@@ -1,4 +1,5 @@
 import shutil
+import time
 import uuid
 from pathlib import Path
 
@@ -9,7 +10,7 @@ from django.core.management import call_command
 
 @pytest.fixture
 def installed_app(settings):
-    app_name = f'test_theme_{str(uuid.uuid1()).replace("-", "_")}'
+    app_name = f'test_theme_{str(uuid.uuid4()).replace("-", "_")}'
 
     call_command("tailwind", "init", app_name)
     settings.INSTALLED_APPS += [app_name]
@@ -17,6 +18,8 @@ def installed_app(settings):
 
     app_label = app_name.split(".")[-1]
     app_path = Path(apps.get_app_config(app_label).path)
+
+    time.sleep(1)
 
     yield app_name, app_path
 
