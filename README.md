@@ -1,4 +1,4 @@
-> I mark this package as deprecated in favour of the [django-tailwind](https://github.com/timonweb/django-tailwind) 2.0 package. This version all the changes that motivated me to create this package in the first place and much more. It is now also based on postcss, added the standard plugins for Tailwind UI and includes a wonderful HMR-based hot reloading.
+> **I mark this package as deprecated in favour of the [django-tailwind](https://github.com/timonweb/django-tailwind) 2.0 package. This version all the changes that motivated me to create this package in the first place and much more. It is now also based on postcss, added the standard plugins for Tailwind UI and includes a wonderful HMR-based hot reloading.**
 
 # Django + Tailwind = ❤
 
